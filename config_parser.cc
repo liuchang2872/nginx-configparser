@@ -191,7 +191,7 @@ bool NginxConfigParser::Parse(std::istream* config_file, NginxConfig* config) {
         break;
       }
     } else if (token_type == TOKEN_TYPE_START_BLOCK) {
-      if (last_token_type != TOKEN_TYPE_NORMAL && last_token_type != TOKEN_TYPE_START_BLOCK && last_token_type != TOKEN_TYPE_STATEMENT_END) {
+      if (last_token_type != TOKEN_TYPE_NORMAL && last_token_type != TOKEN_TYPE_STATEMENT_END) {
         // Error.
         break;
       }
