@@ -11,6 +11,19 @@ TEST(NginxConfigParserTest, SimpleConfig) {
 }
 
 
+TEST_F(NginxConfigParserTest, nestedBracketConfig3 ){
+  std::string config_string = "a {b {c;d {e;}}} f {g;}";
+  std::stringstream config_stream(config_string);
+  EXPECT_TRUE(parser.Parse(&config_stream, &out_config));
+}
+
+// A testcase that combines nested and mismatched brackets
+TEST_F(NginxConfigParserTest, nestedMismatchedBracketConfig ){
+  std::string config_string = "a {b {c;d {e;}} f {g;}";
+  std::stringstream config_stream(config_string);
+  EXPECT_FALSE(parser.Parse(&config_stream, &out_config));
+
+
 
 
 
@@ -54,5 +67,4 @@ TEST_F(NginxConfigParseFixtureTest, Non_ValidString){
 	EXPECT_FALSE(parseString("foo {foo bar;"));  // mismatch curly braces
 	EXPECT_FALSE(parseString("foo {{foo bar;}"));  // mismatch curly braces
 	EXPECT_FALSE(parseString("foo {foo bar;}}"));  // mismatch curly braces
-
 }
