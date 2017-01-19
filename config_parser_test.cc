@@ -10,30 +10,6 @@ TEST(NginxConfigParserTest, SimpleConfig) {
   EXPECT_TRUE(success);
 }
 
-
-TEST_F(NginxConfigParserTest, nestedBracketConfig3 ){
-  std::string config_string = "a {b {c;d {e;}}} f {g;}";
-  std::stringstream config_stream(config_string);
-  EXPECT_TRUE(parser.Parse(&config_stream, &out_config));
-}
-
-// A testcase that combines nested and mismatched brackets
-TEST_F(NginxConfigParserTest, nestedMismatchedBracketConfig ){
-  std::string config_string = "a {b {c;d {e;}} f {g;}";
-  std::stringstream config_stream(config_string);
-  EXPECT_FALSE(parser.Parse(&config_stream, &out_config));
-
-
-
-
-
-//Edit config_parser_test.cc in your repository.
-// You will note the test file already has a passing example. At least one unit test should fail due to bugs in the code you are testing.
-// Don't modify config_parser.cc until you identify the bugs -- it is ALREADY buggy.
-// Also, there is probably no need to review the code you're testing -- just write unit tests until you find a failure.
-// You may be able to find some Nginx config docs or web pages on the internet.
-
-
 //Test fixture 
 class NginxConfigParseFixtureTest : public ::testing::Test {
 protected:
@@ -45,6 +21,23 @@ protected:
     NginxConfigParser parser;
     NginxConfig output_config;
 };
+
+TEST_F(NginxConfigParseFixtureTest, nestedBracketConfig3 ){
+  std::string config_string = "a {b {c;d {e;}}} f {g;}";
+  std::stringstream config_stream(config_string);
+  EXPECT_TRUE(parser.Parse(&config_stream, &output_config));
+}
+
+// A testcase that combines nested and mismatched brackets
+TEST_F(NginxConfigParseFixtureTest, nestedMismatchedBracketConfig ){
+  std::string config_string = "a {b {c;d {e;}} f {g;}";
+  std::stringstream config_stream(config_string);
+  EXPECT_FALSE(parser.Parse(&config_stream, &output_config));
+}
+
+
+
+
 
 TEST_F(NginxConfigParseFixtureTest, ValidString){
 	EXPECT_TRUE(parseString("foo    bar;" )); //multiple spaces are interpreted as a single space
